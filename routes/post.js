@@ -8,7 +8,9 @@ const { multerUploads } = require('../middleware/multer');
 const router = express.Router();
 
 // GET /feed/items
-router.get('/items', isAuth, feedController.getItems);
+router.get('/items', feedController.getItems);
+
+router.post('/items/:userId', isAuth, feedController.getItemsUser);
 
 // POST /feed/item
 router.post('/item', isAuth, multerUploads, [

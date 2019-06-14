@@ -10,10 +10,42 @@ const User = require('../models/user');
 
 exports.getItems = async (req, res, next) => {
     const currentPage = req.query.page || 1;
-    const perPage = 2;
+    const perPage = 12;
     try {
         const totalItems = await Item.find().countDocuments()
         const items = await Item.find()
+            .populate('creator')
+            .sort({ createdAt: -1 })
+            .skip((currentPage - 1) * perPage)
+            .limit(perPage);
+
+        res.status(200).json({
+            message: 'Fetched items successfully.',
+            items,
+            totalItems
+        });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
+
+exports.getItemsUser = async (req, res, next) => {
+    const currentPage = req.query.page || 1;
+    const perPage = 12;
+    const userId = req.query.userId;
+
+    if(userId !== req.userId) {
+        const error = new Error('Invalid User.');
+        error.statusCode = 401;
+        throw error;
+    }
+
+    try {
+        const totalItems = await Item.find({'creator': userId}).countDocuments()
+        const items = await Item.find({'creator': userId})
             .populate('creator')
             .sort({ createdAt: -1 })
             .skip((currentPage - 1) * perPage)
