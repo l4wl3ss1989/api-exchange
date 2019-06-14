@@ -9,11 +9,11 @@ const config = {
 
     },
     default: {
-        SECRET: 'S3CR3TP@SSW0RD',
-        DATEBASE: 'mongodb+srv://l4wl3ss:awdsqe456ytr@cluster0-lmx78.mongodb.net/exchange?retryWrites=true',
-        CLOUDINARY_NAME: 'dvxof9b4f',
-        CLOUDINARY_KEY: '192344863923815',
-        CLOUDINARY_SECRET: 'KnBx51nuA9xDROuw21Sjm12U8jU',
+        SECRET: '',
+        DATEBASE: '',
+        CLOUDINARY_NAME: '',
+        CLOUDINARY_KEY: '',
+        CLOUDINARY_SECRET: '',
         PORT: 8080
     }
 }
