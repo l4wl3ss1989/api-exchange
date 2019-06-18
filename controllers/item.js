@@ -35,7 +35,7 @@ exports.getItems = async (req, res, next) => {
 exports.getItemsUser = async (req, res, next) => {
     const currentPage = req.query.page || 1;
     const perPage = 12;
-    const userId = req.query.userId;
+    const userId = req.params.userId;
 
     if(userId !== req.userId) {
         const error = new Error('Invalid User.');
