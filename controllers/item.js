@@ -46,7 +46,7 @@ exports.getItemsUser = async (req, res, next) => {
     try {
         const totalItems = await Item.find({'creator': userId}).countDocuments()
         const items = await Item.find({'creator': userId})
-            .populate('creator')
+            .populate('creator','_id  email telf createdAt updatedAt')
             .sort({ createdAt: -1 })
             .skip((currentPage - 1) * perPage)
             .limit(perPage);
@@ -63,6 +63,25 @@ exports.getItemsUser = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.getItem = async (req, res, next) => {
+    const itemId = req.params.itemId;
+    try {
+        const item = await Item.findById(itemId)
+            .populate('creator', '_id email telf createdAt updatedAt');
+        if (!item) {
+            const error = new Error('Could not find item.');
+            error.statusCode = 404;
+            throw error;
+        }
+        res.status(200).json({ message: 'Item fetched.', item: item });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+}
 
 exports.createItem = async (req, res, next) => {
     const errors = validationResult(req);
@@ -110,24 +129,6 @@ exports.createItem = async (req, res, next) => {
         next(err);
     }
 };
-
-exports.getItem = async (req, res, next) => {
-    const itemId = req.params.itemId;
-    try {
-        const item = await Item.findById(itemId)
-        if (!item) {
-            const error = new Error('Could not find item.');
-            error.statusCode = 404;
-            throw error; //Ends up in cath
-        }
-        res.status(200).json({ message: 'Item fetched.', item: item });
-    } catch (err) {
-        if (!err.statusCode) {
-            err.statusCode = 500;
-        }
-        next(err);
-    }
-}
 
 exports.updateItem = async (req, res, next) => {
     const itemId = req.params.itemId;

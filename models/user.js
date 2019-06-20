@@ -2,6 +2,7 @@ const mongoose =  require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+    //future add option telephone ?
     email: {
         type: String,
         required: true
@@ -13,6 +14,10 @@ const userSchema = new Schema({
     name: {
         type: String,
         required: true
+    },
+    telf: {
+        type: String,
+        required: false
     },
     items: [{
         type: Schema.Types.ObjectId,

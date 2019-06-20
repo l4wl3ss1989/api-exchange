@@ -18,9 +18,9 @@ router.post('/item', isAuth, multerUploads, [
     body('content').trim().isLength({ min: 5 })
 ], feedController.createItem);
 
-router.get('/item/:itemId', isAuth, feedController.getItem);
+router.get('/item/:itemId', feedController.getItem);
 
-router.put('/item/:itemId', isAuth, [
+router.put('/item/:itemId', isAuth, multerUploads, [
     body('title').trim().isLength({ min: 5 }),
     body('content').trim().isLength({ min: 5 })
 ], feedController.updateItem);

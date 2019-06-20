@@ -18,12 +18,14 @@ exports.signup = async (req, res, next) => {
     const email = req.body.email;
     const name = req.body.name;
     const password = req.body.password;
+    const telf = req.body.telf;
     try {
         const hashedPw = await bcrypt.hash(password, SALT);
         const user = new User({
             email,
             password: hashedPw,
-            name
+            name,
+            telf
         });
         const result = await user.save();
         console.log(chalk.green(['USER CREATED']), result);
