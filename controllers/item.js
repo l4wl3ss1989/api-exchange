@@ -103,10 +103,12 @@ exports.createItem = async (req, res, next) => {
         const imageUrl = uploadedImage.url;
 
         const title = req.body.title;
+        const category = req.body.category;
         const content = req.body.content;
         const item = new Item({
             title,
             imageUrl,
+            category,
             content,
             creator: req.userId,
         });
@@ -139,6 +141,7 @@ exports.updateItem = async (req, res, next) => {
         throw error;
     }
     const title = req.body.title;
+    const category = req.body.category;
     const content = req.body.content;
     let imageUrl = req.body.image;
     try {
@@ -165,11 +168,12 @@ exports.updateItem = async (req, res, next) => {
             error.statusCode = 403;
             throw error;
         }
-        if (!imageUrl !== item.imageUrl) {
+        if (imageUrl !== item.imageUrl) {
             clearImage(item.imageUrl);
         }
         item.title = title;
         item.imageUrl = imageUrl;
+        item.category = category;
         item.content = content;
         const result = await item.save();
         io.getIO().emit('items', { action: 'update', item: result });
