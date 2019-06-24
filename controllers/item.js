@@ -150,7 +150,7 @@ exports.updateItem = async (req, res, next) => {
             const file = dataUri(req).content;
             const uploadedImage = await uploader.upload(file)
             imageUrl = uploadedImage.url;
-            // Delete previous image *            
+            clearImage(imageUrl);         
         }
         if (!imageUrl) {
             const error = new Error('No file picked.');
