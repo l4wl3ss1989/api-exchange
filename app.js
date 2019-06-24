@@ -14,7 +14,7 @@ const authRoutes = require('./routes/auth');
 
 const app = express();
 
-app.use(bodyParser.json()); // application/json
+app.use(bodyParser.json()); //application/json
 // app.use(multer({ storage: fileStorage, fileFilter }).single('image'));
 app.use('*', cloudinaryConfig);
 
